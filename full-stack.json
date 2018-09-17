@@ -867,6 +867,17 @@
                 "KeyName" : { "Ref" : "KeyName" },
                 "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
                             { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] }
+                "UserData" : {
+				"Fn::Base64" : {
+				"Fn::Join" : [ " ", [
+				"#!/bin/bash\n",
+				"systemctl install -y httpd \n",
+				"systemctl start httpd \n",
+				"systemctl enable httpd \n"
+				]
+				]
+				}
+            }
             },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
@@ -888,6 +899,20 @@
                 "KeyName" : { "Ref" : "KeyName" },
                 "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
                             { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] }
+            "UserData" : {
+				"Fn::Base64" : {
+				"Fn::Join" : [ " ", [
+				"yum install wget -y \n",
+				"wget http://mirrors.gigenet.com/apache/tomcat/tomcat-9/v9.0.12/bin/apache-tomcat-9.0.12.tar.gz \n",
+				"wget https://s3.us-east-2.amazonaws.com/cf-templates-d16j5gnh3kiu-us-east-2/jdk-8u131-linux-x64.rpm \n",
+				"rpm -ivh jdk-8u131-linux-x64.rpm\n",
+				"tar -xvzf apache-tomcat-9.0.12.tar.gz\n",
+				"cd /apache-tomcat-9.0.12/bin/\n",
+				"./startup.sh\n"
+				]
+				]
+				}
+				}
             },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
