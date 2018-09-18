@@ -358,7 +358,8 @@
 			"sudo yum install -y httpd\n",
 			"sudo systemctl enable httpd\n",
 			"sudo systemctl start httpd\n",
-		"echo welcome >> /var/www/html/index.html"
+		"echo welcome >> /var/www/html/index.html",
+		"setenforce 0"
 			] ]
     }
 }
