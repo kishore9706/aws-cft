@@ -290,9 +290,9 @@
 
     "AWSRegionArch2AMI" : {
 
-      "us-east-1"        : {"PV64" : "ami-2a69aa47", "HVM64" : "ami-97785bed", "HVMG2" : "ami-0a6e3770"},
+      "us-east-1"        : {"PV64" : "ami-2a69aa47", "HVM64" : "ami-6871a115", "HVMG2" : "ami-0a6e3770"},
 
-      "us-west-2"        : {"PV64" : "ami-7f77b31f", "HVM64" : "ami-f2d3638a", "HVMG2" : "ami-ee15a196"},
+      "us-west-2"        : {"PV64" : "ami-7f77b31f", "HVM64" : "ami-28e07e50", "HVMG2" : "ami-ee15a196"},
 
       "us-west-1"        : {"PV64" : "ami-a2490dc2", "HVM64" : "ami-003ab2d0a7a2becc4", "HVMG2" : "ami-0da4a46d"},
 
@@ -350,36 +350,9 @@
 
         "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
 
-                          { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] },
-						  "UserData" : {
-    "Fn::Base64" : {
-
-        "Fn::Join" : [ " ", [
-
-            "#!/bin/bash\n",
-
-			"yum install -y ansible\n",
-
-			"cd /root \n",
-
-			"wget https://s3.amazonaws.com/cf-templates-24pbwxk5maig-us-east-1/jdk-8u181-linux-x64.rpm \n",
-
-			"rpm -ivh jdk-8u181-linux-x64.rpm \n"
-		       
-
-			
-
-			] ]
-
-    }
-
-}
-
-
-
+                          { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] }
+						  
       }
-
-
 
     },
 
@@ -401,10 +374,10 @@
 
           "ToPort" : "22",
 
-          "CidrIp" : { "Ref" : "SSHLocation"},
-		
+          "CidrIp" : { "Ref" : "SSHLocation"}
 
-        } ]
+        }, 
+				 { "IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "CidrIp" : { "Ref" : "SSHLocation"} }, { "IpProtocol" : "tcp", "FromPort" : "443", "ToPort" : "443", "CidrIp" : { "Ref" : "SSHLocation"} }]
 
       }
 
